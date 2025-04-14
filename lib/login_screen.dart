@@ -30,12 +30,15 @@ class _MobileNumberInputScreenState extends State<MobileNumberInputScreen> {
   void initializeTruecallerSDK() {
     TcSdk.initializeSDK(
       sdkOption: TcSdkOptions.OPTION_VERIFY_ALL_USERS,
-      buttonColor: 0xFF388E3C,
+      // buttonColor: 0xFFD0F0C0,
+      buttonShapeOption: TcSdkOptions.BUTTON_SHAPE_RECTANGLE,
+      // buttonTextColor: 0xFF90EE90
     );
 
     TcSdk.isOAuthFlowUsable.then((isUsable) {
       if (isUsable) {
         oAuthState = const Uuid().v4();
+        log("authState=>$oAuthState");
         TcSdk.setOAuthState(oAuthState);
         TcSdk.setOAuthScopes(['profile', 'phone', 'openid', 'email']);
 
@@ -172,7 +175,7 @@ class _MobileNumberInputScreenState extends State<MobileNumberInputScreen> {
         log("data=$userData");
         log("User Name: ${userData['given_name']} ${userData['family_name']}");
         log("Email: ${userData['email'] ?? 'N/A'}");
-        log("Phone: ${userData['phone_number'].replaceFirst(RegExp(r'^91'), '')}");
+        log("Phone: ${userData['phone_number']}");
       } else {
         log('Error fetching user details: ${response.statusCode}');
       }
